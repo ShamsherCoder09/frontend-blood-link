@@ -1,6 +1,6 @@
-import { Routes,Route } from "react-router-dom"
+import { Routes , Route } from "react-router-dom"
 import { Home,About } from "./components/index"
-
+import { Signup,Login } from "./pages/index"
 function App() {
 
   return (
@@ -9,6 +9,8 @@ function App() {
         <Route path="/" element={<Home/>}>
           <Route path="/about" element={<About/>}/>
         </Route>
+          <Route path="/signup" element={<Signup/>}/>
+          <Route path="/login" element={<Login/>}/>
       </Routes>
     </>
   )
