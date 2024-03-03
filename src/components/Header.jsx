@@ -14,7 +14,8 @@ function Header() {
     },
     {
       id: 4,
-      name: "About Us",
+      name: "Home",
+      slug: '/'
     },
     {
       id: 5,
@@ -45,7 +46,7 @@ function Header() {
 
       <div className="md:hidden">
         <div className="cursor-pointer" onClick={() => setDisplayNav(prev => !prev)}><CiMenuFries size={30}/></div>
-        {displayNav &&  <ul className="flex gap-6 absolute right-16 top-20 text-right flex-col">
+        {displayNav &&  <ul className="flex gap-6 absolute right-6 top-20 text-right flex-col bg-opacity-950 bg-gray-100 rounded-md p-4">
         {navItems.map((item) => <Link to={item.slug} key={item.id}>
             <li className={`cursor-pointer  ${navStyling}`}>{item.name}</li>
           </Link>)}

@@ -45,7 +45,7 @@ function Signup() {
                 <Select label={`City`} placeholder={`Select City`} type='dropdown' required={true} 
                 options={cities}
                 />
-                <Input label={`PinCode`} placeholder={`Enter PinCode`} required={true} />
+                <Input label={`Pincode`} placeholder={`Enter Pincode`} required={true} />
             </form>
             <Button value={'Create One'} parentClassName='text-center mt-12' />
         </div>

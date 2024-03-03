@@ -4,7 +4,7 @@ import {Header,Footer} from './index';
 const Home = () => {
  
   return (
-    <div className='px-12'>
+    <div className='md:px-12 px-2'>
       <Header/>
       <Outlet/>
       <Footer/>
