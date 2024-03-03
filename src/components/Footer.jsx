@@ -8,19 +8,15 @@ function Footer() {
       name: "Home",
       slug: '/'
     },
+    
     {
       id: 2,
-      name: "About",
-      slug: '/'
-    },
-    {
-      id: 3,
       name: "Contact",
       slug: '/'
     },
   ]
   return (
-    <div className='px-2 w-full'>
+    <div className='px-2 w-full my-12'>
       <footer>
         <div className='flex justify-between items-center'>
           <div className='font-bold text-red-500 text-2xl'>
