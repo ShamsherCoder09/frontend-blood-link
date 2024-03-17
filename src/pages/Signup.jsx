@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Input, Select, Button, GoBackBtn } from '../components/globalComponents/index'
 import { useStates } from '../hooks/useStates'
 import { useCity } from '../hooks/useCity';
+import { SignupMutation } from '../api/Auth';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
+    const navigate = useNavigate();
     const [stateData, setStateData] = useState([]);
     const [cities, setCities] = useState([]);
     const [stateCode, setStateCode] = useState("");
@@ -46,9 +50,18 @@ function Signup() {
     const handleRole = (e) => {
         setFormData(prev => ({...prev,'role': e.target.value}))
     }
-    const handleSubmit = () =>{
-        // console.log(formData)
+    const handleSubmit = async () =>{
         // Write backend Query BY Passing the data Object
+        const res = await SignupMutation(formData);
+        if(res?.response?.status === 500 || res?.response?.status === 400){
+            toast.error(res?.response?.data)
+            return
+        }
+        if(res){
+            toast.success(res?.data?.message)
+        }
+        navigate('/')
+
     }
     return (
         <div className='px-12 py-12'>
