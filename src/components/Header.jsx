@@ -7,6 +7,7 @@ function Header() {
     {
       id: 1,
       name: "Want Blood",
+      slug: 'wantBlood'
     },
     {
       id: 2,
