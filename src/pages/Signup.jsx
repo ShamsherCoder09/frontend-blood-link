@@ -5,9 +5,12 @@ import { useCity } from '../hooks/useCity';
 import { SignupMutation } from '../api/Auth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { addUser } from '../reducers/userSlice';
 
 function Signup() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [stateData, setStateData] = useState([]);
     const [cities, setCities] = useState([]);
     const [stateCode, setStateCode] = useState("");
@@ -24,6 +27,12 @@ function Signup() {
         city: "",
         pincode: ""
     });
+    const isAuthenticated = useSelector(state => state.isAuthenticated);
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
     useEffect(() => {
         const fetchData = async () => {
             const states = await useStates();
@@ -59,6 +68,7 @@ function Signup() {
         }
         if(res){
             toast.success(res?.data?.message)
+            dispatch(addUser({user: res?.data?.user}))
         }
         navigate('/')
 
