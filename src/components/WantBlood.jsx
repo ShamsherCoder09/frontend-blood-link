@@ -1,15 +1,31 @@
-import React, { useEffect , useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Select } from './globalComponents/index'
 import { useStates } from '../hooks/useStates'
 import { useCity } from '../hooks/useCity';
+import { getOrganizations } from '../api/getData';
 function WantBlood() {
   const [stateData, setStateData] = useState([]);
   const [cities, setCities] = useState([]);
   const [stateCode, setStateCode] = useState("");
-  const [formData,setFormData] = useState({
+  const [organizations, setOrganizations] = useState([]);
+  const [formData, setFormData] = useState({
     state: "",
     city: "",
   })
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getOrganizations(formData);
+      if (res.response) {
+        setOrganizations([]);
+        return;
+      }
+      else {
+        setOrganizations(res)
+      }
+    }
+    fetchData();
+  }, [formData])
+  // console.log(organizations)
   useEffect(() => {
     const fetchData = async () => {
       const states = await useStates();
@@ -24,12 +40,12 @@ function WantBlood() {
     }
 
   }, [stateCode]);
-  const handleStateChange = (e) =>{
-    setFormData(prev => ({...prev,'state': e.target.value}))
-}
-const handleCityChange = (e) =>{
-    setFormData(prev => ({...prev,'city': e.target.value}))
-}
+  const handleStateChange = (e) => {
+    setFormData(prev => ({ ...prev, 'state': e.target.value }))
+  }
+  const handleCityChange = (e) => {
+    setFormData(prev => ({ ...prev, 'city': e.target.value }))
+  }
   return (
     <div>
       <div className='flex flex-col items-center mt-12 gap-8 justify-center h-[200px]'>
@@ -59,34 +75,15 @@ const handleCityChange = (e) =>{
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="px-4 py-2 border border-gray-400 text-center">Aanchal Blood</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">Rajasthan</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">Jaipur</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">9636245087</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">99 Jaisingh nagar Delhi By pass road jaipur</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2 border border-gray-400 text-center">Aanchal Blood</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">Rajasthan</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">Jaipur</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">9636245087</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">99 Jaisingh nagar Delhi By pass road jaipur</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2 border border-gray-400 text-center">Aanchal Blood</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">Rajasthan</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">Jaipur</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">9636245087</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">99 Jaisingh nagar Delhi By pass road jaipur</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2 border border-gray-400 text-center">Aanchal Blood</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">Rajasthan</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">Jaipur</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">9636245087</td>
-              <td className="px-4 py-2 border border-gray-400 text-center">99 Jaisingh nagar Delhi By pass road jaipur</td>
-            </tr>
+            {organizations?.map((item) => (
+              <tr key={item._id}>
+                <th className="px-4 py-2 border border-gray-400 text-center">{item.fullName}</th>
+                <th className="px-4 py-2 border border-gray-400 text-center">{item.state}</th>
+                <th className="px-4 py-2 border border-gray-400 text-center">{item.city}</th>
+                <th className="px-4 py-2 border border-gray-400 text-center">{item.contact}</th>
+                <th className="px-4 py-2 border border-gray-400 text-center">{item.address}</th>
+              </tr>
+            ))}
 
           </tbody>
         </table>
