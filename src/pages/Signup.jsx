@@ -2,8 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Input, Select, Button, GoBackBtn } from '../components/globalComponents/index'
 import { useStates } from '../hooks/useStates'
 import { useCity } from '../hooks/useCity';
+import { SignupMutation } from '../api/Auth';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { addUser } from '../reducers/userSlice';
 
 function Signup() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [stateData, setStateData] = useState([]);
     const [cities, setCities] = useState([]);
     const [stateCode, setStateCode] = useState("");
@@ -20,6 +27,12 @@ function Signup() {
         city: "",
         pincode: ""
     });
+    const isAuthenticated = useSelector(state => state.isAuthenticated);
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
     useEffect(() => {
         const fetchData = async () => {
             const states = await useStates();
@@ -46,9 +59,19 @@ function Signup() {
     const handleRole = (e) => {
         setFormData(prev => ({...prev,'role': e.target.value}))
     }
-    const handleSubmit = () =>{
-        // console.log(formData)
+    const handleSubmit = async () =>{
         // Write backend Query BY Passing the data Object
+        const res = await SignupMutation(formData);
+        if(res?.response?.status === 500 || res?.response?.status === 400){
+            toast.error(res?.response?.data)
+            return
+        }
+        if(res){
+            toast.success(res?.data?.message)
+            dispatch(addUser({user: res?.data?.user}))
+        }
+        navigate('/')
+
     }
     return (
         <div className='px-12 py-12'>
