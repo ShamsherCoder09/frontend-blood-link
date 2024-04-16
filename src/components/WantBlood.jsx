@@ -12,6 +12,7 @@ function WantBlood() {
     state: "",
     city: "",
   })
+  const [loading,setLoading] = useState(false);
   useEffect(() => {
     async function fetchData() {
       const res = await getOrganizations(formData);
@@ -46,6 +47,22 @@ function WantBlood() {
   const handleCityChange = (e) => {
     setFormData(prev => ({ ...prev, 'city': e.target.value }))
   }
+  async function showPosition  (position) {
+    setLoading(true);
+    const cityName =  await fetchCityFromCoordinates(position.coords.latitude,position.coords.longitude)
+    setFormData({city: cityName})
+    setLoading(false);
+  }
+  const fetchCityFromCoordinates = async (lat, long) => {
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json`);
+      const data = await response.json();
+      const cityName = data.address.city || data.address.town || data.address.village || '';
+      return cityName
+    } catch (error) {
+      console.error('Error fetching city:', error);
+    }
+  };
   return (
     <div>
       <div className='flex flex-col items-center mt-12 gap-8 justify-center h-[200px]'>
@@ -59,11 +76,14 @@ function WantBlood() {
         <div>---------Or---------</div>
         <div className='flex flex-col gap-4 items-center text-center'>
           Locate Your Nearby blood Organization
-          <Button value={`Find`} />
+          <Button value={`Find`} onClick={() => navigator.geolocation.getCurrentPosition(showPosition)}/>
         </div>
       </div>
 
       <div className='flex flex-col justify-center items-center mt-12'>
+        {loading ? <div>
+          <p>Loading.....</p>
+        </div> :
         <table>
           <thead>
             <tr>
@@ -87,6 +107,7 @@ function WantBlood() {
 
           </tbody>
         </table>
+    }
       </div>
     </div>
   )
