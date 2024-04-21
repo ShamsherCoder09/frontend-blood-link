@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import { removeUser } from "../reducers/userSlice";
 import {toast} from 'react-toastify'
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector(state => state.isAuthenticated);
+  const isAuthenticated = localStorage.getItem('user');
   const [displayNav, setDisplayNav] = useState(false);
   const handleLogOut = () => {
+    localStorage.removeItem('user');
     dispatch(removeUser())
     toast.success("User Logout SuccesFully")
+    navigate('/login')
   }
   const navItems = [
     { id: 1, name: "Want Blood", slug: 'wantBlood' },

@@ -27,7 +27,7 @@ function Signup() {
         city: "",
         pincode: ""
     });
-    const isAuthenticated = useSelector(state => state.isAuthenticated);
+    const isAuthenticated = localStorage.getItem('user')
     useEffect(() => {
         if (isAuthenticated) {
             navigate('/');

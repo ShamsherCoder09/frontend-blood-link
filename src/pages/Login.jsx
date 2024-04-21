@@ -1,7 +1,13 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Input, Button,GoBackBtn  } from '../components/globalComponents/index'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
+import { loginMutation } from '../api/Auth';
 function Login() {
+  const isAuthenticated = localStorage.getItem('user')
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -9,11 +15,22 @@ function Login() {
 const handleInputChange = (e) => {
   setFormData(prev => ({...prev,[e.target.name]: e.target.value}))
 }
-const handleSubmit = (e) =>{
+const handleSubmit = async (e) =>{
   e.preventDefault()
-  // TODO Write Query for the Database
-  // console.log(formData);
+  const res = await loginMutation(formData);
+  if(res?.data?.message){
+    toast.success(res?.data?.message)
+  }
+  if(res?.data?.user){
+    localStorage.setItem('user',res?.data?.user);
+  }
+  navigate('/')
 }
+useEffect(() => {
+  if (isAuthenticated) {
+      navigate('/');
+  }
+}, [isAuthenticated, navigate]);
   return (
     <div>
        <div className='px-12 py-12'>
