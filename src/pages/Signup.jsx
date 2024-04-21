@@ -5,7 +5,7 @@ import { useCity } from '../hooks/useCity';
 import { SignupMutation } from '../api/Auth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addUser } from '../reducers/userSlice';
 
 function Signup() {
@@ -27,7 +27,7 @@ function Signup() {
         city: "",
         pincode: ""
     });
-    const isAuthenticated = useSelector(state => state.isAuthenticated);
+    const isAuthenticated = localStorage.getItem('user')
     useEffect(() => {
         if (isAuthenticated) {
             navigate('/');

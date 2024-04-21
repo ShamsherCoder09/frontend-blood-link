@@ -9,3 +9,11 @@ export async function getOrganizations(data){
     }
 
 }
+export async function updateAvailable(data){
+    try {
+        const res = await axios.post('http://localhost:9000/api/updateAvailable',data);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}
