@@ -17,3 +17,11 @@ export async function updateAvailable(data){
         return error;
     }
 }
+export async function getAvailableBlood(data) {
+    try {
+        const res = await axios.post('http://localhost:9000/api/getAvailableBlood', {data});
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}

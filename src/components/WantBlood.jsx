@@ -27,11 +27,9 @@ function WantBlood() {
       const res = await getOrganizations(formData);
       if (res.response) {
         setOrganizations([]);
-        setNotFound(true)
         return;
       }
       else {
-        setNotFound(false)
         setOrganizations(res)
       }
     }
@@ -74,6 +72,9 @@ function WantBlood() {
       console.error('Error fetching city:', error);
     }
   };
+  const goToOrganization = (organizationName) => {
+    navigate(`/blood/${organizationName}`)
+  }
   return (
     <div>
       <div className="text-center mt-12 text-red-500 text-3xl font-semibold">Locate The Organizations</div>
@@ -102,6 +103,7 @@ function WantBlood() {
               <th className="px-4 py-2 border border-gray-400 text-center">City</th>
               <th className="px-4 py-2 border border-gray-400 text-center">Contact</th>
               <th className="px-4 py-2 border border-gray-400 text-center">Address</th>
+              <th className="px-4 py-2 border border-gray-400 text-center">Show</th>
             </tr>
           </thead>
           <tbody>
@@ -112,6 +114,9 @@ function WantBlood() {
                 <th className="px-4 py-2 border border-gray-400 text-center">{item.city}</th>
                 <th className="px-4 py-2 border border-gray-400 text-center">{item.contact}</th>
                 <th className="px-4 py-2 border border-gray-400 text-center">{item.address}</th>
+                <th className="px-4 py-2 border border-gray-400 text-center">
+                  <Button onClick={() => goToOrganization(item.fullName)} value={`Show`} />
+                </th>
               </tr>
             ))}
 
