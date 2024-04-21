@@ -22,7 +22,7 @@ const handleSubmit = async (e) =>{
     toast.success(res?.data?.message)
   }
   if(res?.data?.user){
-    localStorage.setItem('user',res?.data?.user);
+    localStorage.setItem('user',JSON.stringify(res?.data?.user));
   }
   navigate('/')
 }
