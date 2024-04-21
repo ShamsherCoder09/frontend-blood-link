@@ -3,11 +3,13 @@ import { Button, Select } from './globalComponents/index'
 import { useStates } from '../hooks/useStates'
 import { useCity } from '../hooks/useCity';
 import { getOrganizations } from '../api/getData';
+import Spinner from './globalComponents/Spinner';
 function WantBlood() {
   const [stateData, setStateData] = useState([]);
   const [cities, setCities] = useState([]);
   const [stateCode, setStateCode] = useState("");
   const [organizations, setOrganizations] = useState([]);
+  const [notFound,setNotFound] = useState(false);
   const [formData, setFormData] = useState({
     state: "",
     city: "",
@@ -18,9 +20,11 @@ function WantBlood() {
       const res = await getOrganizations(formData);
       if (res.response) {
         setOrganizations([]);
+        setNotFound(true)
         return;
       }
       else {
+        setNotFound(false)
         setOrganizations(res)
       }
     }
@@ -65,25 +69,24 @@ function WantBlood() {
   };
   return (
     <div>
-      <div className='flex flex-col items-center mt-12 gap-8 justify-center h-[200px]'>
+      <div className="text-center mt-12 text-red-500 text-3xl font-semibold">Locate The Organizations</div>
+      <div className='flex flex-col bg-red-50 rounded-xl border border-red-900 items-center mt-12 gap-8 justify-center h-[300px]'>
         <div className='text-center'>
-          Manual Search
           <div className='flex gap-8'>
             <Select label={'State'} options={stateData} setStateCode={setStateCode} onChange={handleStateChange} />
             <Select label={'City'} options={cities} onChange={handleCityChange} />
           </div>
         </div>
-        <div>---------Or---------</div>
+        <div className='text-red-500 text-2xl font-bold'>OR</div>
         <div className='flex flex-col gap-4 items-center text-center'>
-          Locate Your Nearby blood Organization
-          <Button value={`Find`} onClick={() => navigator.geolocation.getCurrentPosition(showPosition)}/>
+          <Button value={`Find Nearby Organizations`} onClick={() => navigator.geolocation.getCurrentPosition(showPosition)}/>
         </div>
       </div>
 
-      <div className='flex flex-col justify-center items-center mt-12'>
-        {loading ? <div>
-          <p>Loading.....</p>
-        </div> :
+      <div className='flex flex-col justify-center items-center mt-36'>
+        {loading ? 
+          <Spinner/>
+         :
         <table>
           <thead>
             <tr>
