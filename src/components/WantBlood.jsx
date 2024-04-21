@@ -4,17 +4,24 @@ import { useStates } from '../hooks/useStates'
 import { useCity } from '../hooks/useCity';
 import { getOrganizations } from '../api/getData';
 import Spinner from './globalComponents/Spinner';
+import { useNavigate } from 'react-router-dom';
 function WantBlood() {
+  const isAuthenticated = localStorage.getItem('user')
+  const navigate = useNavigate();
   const [stateData, setStateData] = useState([]);
   const [cities, setCities] = useState([]);
   const [stateCode, setStateCode] = useState("");
   const [organizations, setOrganizations] = useState([]);
-  const [notFound,setNotFound] = useState(false);
   const [formData, setFormData] = useState({
     state: "",
     city: "",
   })
   const [loading,setLoading] = useState(false);
+  useEffect(() => {
+    if(!isAuthenticated){
+      navigate('/')
+    }
+  },[isAuthenticated])
   useEffect(() => {
     async function fetchData() {
       const res = await getOrganizations(formData);
