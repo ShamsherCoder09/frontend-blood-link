@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { GoBackBtn } from './globalComponents'
 function BloodAvailable() {
   const {organizationName} = useParams()
-  const [availableBloodData,setAvailableBloodData] = useState()
+  const [availableBloodData,setAvailableBloodData] = useState({})
   useEffect(() => {
     const fetchData = async () => {
         if(organizationName.length > 1){
