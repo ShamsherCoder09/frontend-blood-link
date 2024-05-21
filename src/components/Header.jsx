@@ -10,7 +10,7 @@ function Header() {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const user = localStorage.getItem('user');
-  const currentUser = JSON.parse(user);
+  const currentUser = JSON.parse(user); 
   const [displayNav, setDisplayNav] = useState(false);
   const handleLogOut = () => {
     localStorage.removeItem('user');
@@ -64,7 +64,7 @@ function Header() {
           <ul className="flex gap-6 absolute right-6 top-20 text-right flex-col bg-opacity-950 bg-gray-100 rounded-md p-4">
             {filteredNavItems.map((item) => (
               <Link to={item.slug} key={item.id}>
-                <li className={`cursor-pointer  ${navStyling}`}>{item.name}</li>
+                <li onClick={item.onClick} className={`cursor-pointer  ${navStyling}`}>{item.name}</li>
               </Link>
             ))}
           </ul>
