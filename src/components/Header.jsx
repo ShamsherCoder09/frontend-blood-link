@@ -20,7 +20,7 @@ function Header() {
   }
   const navItems = [
     { id: 1, name: "Want Blood", slug: 'wantBlood' },
-    { id: 2, name: "Want to Donate", slug: 'wantDonate' },
+    { id: 2, name: currentUser?.role === 'Doner' && "Want to Donate", slug: 'wantDonate' },
     { id: 4, name: "Home", slug: '/' },
     { id: 5, name: currentUser?.role === 'Organization' && "Set Availability",
      slug: '/setAvailable' },
