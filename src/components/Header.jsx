@@ -24,6 +24,8 @@ function Header() {
     { id: 4, name: "Home", slug: '/' },
     { id: 5, name: currentUser?.role === 'Organization' && "Set Availability",
      slug: '/setAvailable' },
+     { id: 8, name: currentUser?.role === 'Organization' && "Doner Response ",
+     slug: '/donerResponse' },
     {
       id: 6,
       name: user ? "Logout" : "Login",
@@ -37,6 +39,7 @@ function Header() {
       className: 'bg-red-500 rounded-md text-white hover:bg-red-600 hover:text-white px-4 py-2',
       slug: user ? '/profile' : '/signup'
     },
+   
     
   ];
 
