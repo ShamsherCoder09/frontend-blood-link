@@ -16,7 +16,6 @@ function DonerResponse() {
     getAllFormsFunc(); // Call the function inside useEffect
   }, []);
 
-  console.log(donerDetails);
   return (
     <div>
       <div className="text-center mt-12">
